@@ -1,20 +1,14 @@
-<x-layout :title="$property->title">
-  <a href="{{ route('home') }}" class="btn btn-link mb-3">&larr; Back to listings</a>
-
-  <div class="row g-4">
-    <div class="col-lg-7">
-      <img src="{{ $property->image ?? 'https://picsum.photos/seed/'.$property->id.'/1200/600' }}"
-           class="img-fluid rounded shadow-sm" alt="{{ $property->title }}">
+<x-layout>
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <img src="{{ $property->image }}" class="card-img-top" alt="{{ $property->title }}">
+            <div class="card-body">
+                <h2 class="card-title">{{ $property->title }}</h2>
+                <p class="text-muted">{{ $property->city }} – {{ $property->type }}</p>
+                <h4 class="text-primary">${{ number_format($property->price, 2) }}</h4>
+                <p class="mt-3">{{ $property->description }}</p>
+                <a href="{{ route('home') }}" class="btn btn-secondary mt-3">Back to Properties</a>
+            </div>
+        </div>
     </div>
-    <div class="col-lg-5">
-      <h2 class="fw-bold">{{ $property->title }}</h2>
-      <p class="text-muted">{{ $property->city ?? 'Tirana' }} • {{ $property->type ?? 'Apartment' }}</p>
-      <p class="fs-4 fw-semibold">{{ isset($property->price) ? '€'.number_format($property->price) : 'Price on request' }}</p>
-
-      <div class="mt-3">
-        <h5>Description</h5>
-        <p>{{ $property->description ?? 'No description yet.' }}</p>
-      </div>
-    </div>
-  </div>
 </x-layout>
