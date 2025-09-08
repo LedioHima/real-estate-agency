@@ -12,6 +12,8 @@ class AgentFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'phone' => $this->faker->phoneNumber(),
+            'photo' => 'agents/default.png', // Example static placeholder
         ];
     }
+
 }

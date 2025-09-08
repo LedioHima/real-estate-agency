@@ -22,7 +22,7 @@
       <div class="collapse navbar-collapse" id="nav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a href="{{ route('home') }}" class="nav-link">Properties</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">Agents</a></li>
+          <li class="nav-item"><a href="" class="nav-link">Agents</a></li>
           <li class="nav-item"><a href="#" class="nav-link">About</a></li>
         </ul>
       </div>

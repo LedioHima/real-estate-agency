@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\AgentController;
+
+Route::resource('agents', AgentController::class);
 
 // Home route
 Route::get('/', [PropertyController::class, 'index'])->name('home');
