@@ -3,14 +3,22 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PropertyController;
 
+// Home route
 Route::get('/', [PropertyController::class, 'index'])->name('home');
-Route::get('/properties/{property}', [PropertyController::class, 'show'])->name('properties.show');
 
-// 🚫 REMOVE or comment out these old ones
-// Route::get('/', function () { ... });
-// Route::get('/properties/{id}', function (int $id) { ... });
+// Show a single property
+Route::get('/properties/{property:slug}', [PropertyController::class, 'show'])->name('properties.show');
 
-// Keep debug if you still want it
+// Property management (CRUD)
+Route::get('/properties/create', [PropertyController::class, 'create'])->name('properties.create');
+Route::post('/properties', [PropertyController::class, 'store'])->name('properties.store');
+
+Route::get('/properties/{property:slug}/edit', [PropertyController::class, 'edit'])->name('properties.edit');
+Route::put('/properties/{property:slug}', [PropertyController::class, 'update'])->name('properties.update');
+
+Route::delete('/properties/{property:slug}', [PropertyController::class, 'destroy'])->name('properties.destroy');
+
+// Debug route
 Route::get('/debug', function () {
     $q = request('q', 'none');
     dd(['message' => 'Debug route hit', 'query' => $q]);

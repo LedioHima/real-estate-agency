@@ -20,7 +20,7 @@ return new class extends Migration
         $table->unsignedInteger('price')->nullable();
         $table->string('image')->nullable();
         $table->text('description')->nullable();
-        $table->unsignedBigInteger('agent_id')->nullable(); // No constraint yet
+        $table->foreignId('agent_id')->nullable()->constrained('agents')->onDelete('set null');
         $table->timestamps();
     });
 }

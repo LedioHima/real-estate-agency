@@ -19,4 +19,9 @@ class Property extends Model
         'description',
         'agent_id'
     ];
+
+    public function agent()
+    {
+        return $this->belongsTo(Agent::class);
+    }
 }
