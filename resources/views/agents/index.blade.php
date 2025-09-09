@@ -18,7 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($agents as $agent)
+                @forelse($agents as $agent)
                     <tr>
                         <td>
                             @if($agent->photo)
@@ -39,7 +39,11 @@
                             </form>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="5">No agents found.</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
 

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
 
 Route::resource('agents', AgentController::class);
 
@@ -26,3 +28,17 @@ Route::get('/debug', function () {
     $q = request('q', 'none');
     dd(['message' => 'Debug route hit', 'query' => $q]);
 });
+
+
+Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register.form');
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login.form');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Example dashboard route
+Route::get('/dashboard', function () {
+    $user = auth()->user();
+    return view('dashboard', compact('user'));
+})->middleware('auth')->name('dashboard');
