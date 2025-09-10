@@ -39,6 +39,6 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Example dashboard route
 Route::get('/dashboard', function () {
-    $user = auth()->user();
+    $user = auth()->guard()->user();
     return view('dashboard', compact('user'));
 })->middleware('auth')->name('dashboard');
