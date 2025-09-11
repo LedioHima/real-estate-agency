@@ -29,4 +29,10 @@ class User extends Authenticatable {
     public function isGuestUser() {
         return $this->role === 'guest';
     }
+
+    public function properties()
+    {
+        return $this->hasMany(Property::class);
+    }
+
 }

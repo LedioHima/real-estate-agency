@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory; // <-- Add this
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Property extends Model
 {
-    use HasFactory; // <-- Add this line
+    use HasFactory;
 
     protected $fillable = [
         'title',
@@ -17,11 +18,22 @@ class Property extends Model
         'price',
         'image',
         'description',
-        'agent_id'
+        'user_id',
     ];
 
-    public function agent()
+    // Automatically generate a slug
+    protected static function boot()
     {
-        return $this->belongsTo(Agent::class);
+        parent::boot();
+
+        static::creating(function ($property) {
+            $property->slug = Str::slug($property->title);
+        });
+    }
+
+    // Relationship: Property belongs to a User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
