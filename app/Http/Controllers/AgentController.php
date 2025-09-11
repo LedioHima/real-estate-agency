@@ -8,27 +8,63 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AgentController extends Controller {
-    public function store(Request $request) {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed',
-        ]);
-
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'agent',
-        ]);
-
-        return back()->with('success', 'Agent created successfully!');
+    public function create()
+    {
+        return view('agents.create'); // make this Blade view
     }
 
-    public function index()
+    public function store(Request $request)
 {
-    $agents = \App\Models\User::where('role', 'agent')->paginate(10);
-    return view('agents.index', compact('agents'));
-}
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|string|min:6',
+    ]);
 
+    // Set role to 'agent'
+    $validated['role'] = 'agent';
+
+    // Hash the password
+    $validated['password'] = Hash::make($validated['password']);
+
+    User::create($validated);
+
+    return redirect()->route('agents.index')->with('success', 'Agent created successfully.');
+}
+ public function index()
+    {
+        $agents = User::where('role', 'agent')->paginate(10);
+        return view('agents.index', compact('agents'));
+    }
+
+    public function edit(User $user)
+    {
+        return view('agents.edit', compact('user'));
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'phone' => 'nullable|string|max:20',
+            'password' => 'nullable|string|min:8',
+        ]);
+
+        if (!empty($validated['password'])) {
+            $validated['password'] = bcrypt($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        $user->update($validated);
+
+        return redirect()->route('agents.index')->with('success', 'Agent updated successfully.');
+    }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return redirect()->route('agents.index')->with('success', 'Agent deleted successfully.');
+    }
 }

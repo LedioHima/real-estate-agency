@@ -1,6 +1,4 @@
-@extends('components.layout')
-
-@section('content')
+<x-layout title="Register">
 <div class="row justify-content-center">
     <div class="col-md-6">
         <div class="card">
@@ -26,4 +24,4 @@
         </div>
     </div>
 </div>
-@endsection
+</x-layout>

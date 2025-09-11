@@ -1,7 +1,5 @@
 <!-- resources/views/auth/login.blade.php -->
-@extends('components.layout')
-
-@section('content')
+<x-layout title="Login">
 <div class="row justify-content-center">
     <div class="col-md-6">
         <div class="card">
@@ -25,4 +23,4 @@
         </div>
     </div>
 </div>
-@endsection
+</x-layout>
