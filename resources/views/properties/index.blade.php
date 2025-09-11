@@ -1,28 +1,16 @@
-<x-layout title="All Properties">
-    <div class="container mt-5">
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            @foreach($properties as $property)
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="{{ $property['image'] }}" class="card-img-top" alt="{{ $property['title'] }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $property['title'] }}</h5>
-                            <p class="card-text">City: {{ $property['city'] }}</p>
-                            <p class="card-text">Price: ${{ $property['price'] }}</p>
-                            
-                            {{-- Display Agent Name --}}
-                            <p class="card-text">
-                                <strong>Agent:</strong> {{ $property->agent->name ?? 'N/A' }}
-                            </p>
+<x-layout title="My Properties">
+    <h1>My Properties</h1>
 
-                            {{-- Link to view details --}}
-                            <a href="{{ route('properties.show', $property['id']) }}" class="btn btn-primary">
-                                View Details
-                            </a>
-                        </div>
-                    </div>
-                </div>
+    @if($properties->isEmpty())
+        <p>You have no properties listed yet.</p>
+    @else
+        <ul class="list-group">
+            @foreach($properties as $property)
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>{{ $property->title }}</span>
+                    <a href="{{ route('properties.edit', $property->slug) }}" class="btn btn-sm btn-primary">Edit</a>
+                </li>
             @endforeach
-        </div>
-    </div>
+        </ul>
+    @endif
 </x-layout>

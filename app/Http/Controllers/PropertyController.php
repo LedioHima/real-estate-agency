@@ -28,4 +28,15 @@ class PropertyController extends Controller
 
         return view('properties.show', compact('property'));
     }
+
+    public function myProperties()
+    {
+        $user = auth()->guard()->user();
+
+        // Fetch only properties that belong to the logged-in agent
+        $properties = \App\Models\Property::where('user_id', $user->id)->get();
+
+        return view('properties.index', compact('properties'));
+    }
+
 }

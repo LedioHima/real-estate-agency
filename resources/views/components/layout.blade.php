@@ -22,6 +22,12 @@
                         @if(auth()->user()->isAdmin())
                             <li class="nav-item"><a class="nav-link" href="{{ route('agents.index') }}">Manage Agents</a></li>
                         @endif
+                        
+                        @if(auth()->user()->isAgent())
+                             <li class="nav-item"><a class="nav-link" href="{{ route('properties.index') }}">My Properties</a></li>  
+                        @endif
+                        
+                        <li class="nav-item"><a class="nav-link" href="{{ route('profile') }}">Profile</a></li>
                         <li class="nav-item">
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf

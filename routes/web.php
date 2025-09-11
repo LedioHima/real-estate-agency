@@ -5,6 +5,7 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ProfileController;
 
 
 
@@ -22,6 +23,23 @@ Route::get('/properties/{property:slug}/edit', [PropertyController::class, 'edit
 Route::put('/properties/{property:slug}', [PropertyController::class, 'update'])->name('properties.update');
 
 Route::delete('/properties/{property:slug}', [PropertyController::class, 'destroy'])->name('properties.destroy');
+
+// ==========================
+// NEW: Properties Index for Agent's "My Properties"
+// ==========================
+Route::get('/properties', [PropertyController::class, 'myProperties'])
+    ->middleware('auth') // only logged-in users
+    ->name('properties.index');
+
+
+// ==========================
+// NEW: Profile Route
+// ==========================
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
+
 
 // Debug route
 Route::get('/debug', function () {
