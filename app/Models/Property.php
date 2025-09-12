@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +17,7 @@ class Property extends Model
         'price',
         'image',
         'description',
-        'user_id',
+        'user_id', // assigned agent
     ];
 
     // Automatically generate a slug
@@ -31,9 +30,11 @@ class Property extends Model
         });
     }
 
-    // Relationship: Property belongs to a User
-    public function user()
+    /**
+     * A property belongs to a user with the role 'agent'
+     */
+    public function agent()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id')->where('role', 'agent');
     }
 }
