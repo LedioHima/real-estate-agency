@@ -15,8 +15,9 @@ class PropertyController extends Controller
     public function index()
     {
         $properties = Property::with('agent')->get();
-        return view('properties.index', compact('properties'));
+        return view('properties.guest_index', compact('properties'));
     }
+
 
     /**
      * Display a single property (public).
