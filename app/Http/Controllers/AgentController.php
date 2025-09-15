@@ -31,11 +31,21 @@ class AgentController extends Controller {
 
     return redirect()->route('agents.index')->with('success', 'Agent created successfully.');
 }
- public function index()
-    {
-        $agents = User::where('role', 'agent')->paginate(10);
-        return view('agents.index', compact('agents'));
-    }
+public function index(Request $request)
+{
+    $search = $request->input('search');
+
+    $agents = User::where('role', 'agent')
+        ->when($search, function ($query, $search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+            });
+        })
+        ->paginate(10);
+
+    return view('agents.index', compact('agents', 'search'));
+}
 
     public function edit(User $user)
     {

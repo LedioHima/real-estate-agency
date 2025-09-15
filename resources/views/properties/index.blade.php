@@ -5,6 +5,18 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
+    <!-- Search Bar -->
+    <form action="{{ route('properties.index') }}" method="GET" class="mb-3 d-flex" style="max-width: 400px;">
+        <input 
+            type="text" 
+            name="search" 
+            class="form-control me-2" 
+            placeholder="Search by title, city, or type" 
+            value="{{ request('search') }}" {{-- Keeps search text after submit --}}
+        >
+        <button type="submit" class="btn btn-outline-primary">Search</button>
+    </form>
+
     <a href="{{ route('properties.create') }}" class="btn btn-success mb-3">Add New Property</a>
 
     @if($properties->isEmpty())
@@ -18,8 +30,9 @@
                     <th>Type</th>
                     <th>Price</th>
                     <th>Description</th>
+                    <th>Agent</th>
                     <th>Image</th>
-                    <th>Actions</th> {{-- New column --}}
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,6 +43,7 @@
                         <td>{{ $property->type }}</td>
                         <td>${{ number_format($property->price, 2) }}</td>
                         <td>{{ $property->description }}</td>
+                        <td>{{ $property->agent ? $property->agent->name : 'No Agent Assigned' }}</td>
                         <td>
                             @if($property->image)
                                 <img src="{{ asset('storage/' . $property->image) }}" alt="Property Image" width="80">
@@ -37,7 +51,6 @@
                         </td>
                         <td>
                             <a href="{{ route('properties.edit', $property->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                            
                             <form action="{{ route('properties.destroy', $property->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this property?');">
                                 @csrf
                                 @method('DELETE')

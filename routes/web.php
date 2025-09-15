@@ -60,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/properties', [PropertyController::class, 'store'])->name('properties.store');
 
     // Agent's properties list
+    //Route::get('/properties', [PropertyController::class, 'index'])->name('properties.index');
     Route::get('/properties', [PropertyController::class, 'myProperties'])->name('properties.index');
 
     // Edit, Update, Delete

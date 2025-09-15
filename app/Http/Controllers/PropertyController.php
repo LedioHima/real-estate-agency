@@ -32,11 +32,24 @@ class PropertyController extends Controller
     /**
      * Display logged-in agent's properties.
      */
-    public function myProperties()
+    public function myProperties(Request $request)
     {
-        $properties = Property::where('user_id', Auth::id())->get();
-        return view('properties.index', compact('properties'));
+        $search = $request->input('search');
+
+        $properties = Property::with('agent')
+            ->where('user_id', Auth::id()) // restrict to logged-in agent
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('city', 'like', "%{$search}%")
+                    ->orWhere('type', 'like', "%{$search}%");
+                });
+            })
+            ->get();
+
+        return view('properties.index', compact('properties', 'search'));
     }
+
 
     /**
      * Show create form.
