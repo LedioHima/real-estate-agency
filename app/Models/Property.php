@@ -37,4 +37,9 @@ class Property extends Model
     {
         return $this->belongsTo(User::class, 'user_id')->where('role', 'agent');
     }
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
 }
