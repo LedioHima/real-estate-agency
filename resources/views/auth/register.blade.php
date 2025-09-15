@@ -20,6 +20,13 @@
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Register</button>
                 </form>
+                
+                <div class="text-center mt-3">
+                    <p class="mb-0">
+                        Do have an account? 
+                        <a href="{{ route('login.form') }}">Log in here</a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
