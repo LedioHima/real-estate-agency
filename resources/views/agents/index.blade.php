@@ -14,7 +14,7 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Actions</th>
-                </tr>
+                </tr>  
             </thead>
             <tbody>
                @forelse($agents as $agent)
