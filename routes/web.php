@@ -6,6 +6,8 @@ use App\Http\Controllers\AgentController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\DashboardController;
 
 // ------------------------------
 // Public Routes
@@ -33,10 +35,10 @@ Route::get('/debug', function () {
 Route::middleware(['auth'])->group(function () {
 
     // Dashboard
-    Route::get('/dashboard', function () {
-        $user = auth()->guard()->user();
-        return view('dashboard', compact('user'));
-    })->name('dashboard');
+   Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('dashboard');
+
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
@@ -64,6 +66,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/properties/{property}/edit', [PropertyController::class, 'edit'])->name('properties.edit');
     Route::put('/properties/{property}', [PropertyController::class, 'update'])->name('properties.update');
     Route::delete('/properties/{property}', [PropertyController::class, 'destroy'])->name('properties.destroy');
+
+    // Favorites
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+    Route::post('/favorites/{property}', [FavoriteController::class, 'store'])->name('favorites.store');
+    Route::delete('/favorites/{property}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+
 });
 
 // ------------------------------

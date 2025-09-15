@@ -33,15 +33,34 @@
                             </p>
 
                             {{-- Show More (modal trigger) --}}
+                            <div class="d-flex justify-content-between align-items-center mt-auto">
+                            {{-- Show More --}}
                             <button type="button" 
-                                    class="btn btn-sm btn-outline-primary mt-auto"
+                                    class="btn btn-sm btn-outline-primary"
                                     data-bs-toggle="modal"
                                     data-bs-target="#propertyModal-{{ $property->id }}">
                                 Show More
                             </button>
+
+                            {{-- Heart Icon --}}
+                            @auth
+                                <form action="{{ route('favorites.store', $property->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-link p-0">
+                                        <i class="bi bi-heart{{ auth()->user()->favorites->contains('property_id', $property->id) ? '-fill text-danger' : '' }}"></i>
+                                    </button>
+                                </form>
+                            @else
+                                <a href="{{ route('login.form') }}" class="btn btn-link p-0">
+                                    <i class="bi bi-heart"></i>
+                                </a>
+                            @endauth
+                        </div>
+
                         </div>
                     </div>
                 </div>
+                
 
                 {{-- Modal --}}
                 <div class="modal fade" id="propertyModal-{{ $property->id }}" tabindex="-1" aria-labelledby="propertyModalLabel-{{ $property->id }}" aria-hidden="true">
