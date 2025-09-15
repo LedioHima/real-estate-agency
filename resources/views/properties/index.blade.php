@@ -1,5 +1,5 @@
 <x-layout title="My Properties">
-    <h1 class="mb-4">My Properties</h1>
+    <h1 class="mb-4">Manage Properties</h1>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>

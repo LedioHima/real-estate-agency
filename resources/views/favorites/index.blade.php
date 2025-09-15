@@ -23,12 +23,11 @@
                             <p class="card-text mb-1"><strong>Type:</strong> {{ $property->type }}</p>
                             <p class="card-text mb-3"><strong>Price:</strong> ${{ number_format($property->price, 2) }}</p>
 
-                            {{-- Remove from favorites --}}
-                            <form action="{{ route('favorites.destroy', $property->id) }}" method="POST" class="mt-auto">
+                            {{-- Heart Toggle Button --}}
+                            <form action="{{ route('favorites.toggle', $property->id) }}" method="POST" class="mt-auto">
                                 @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-outline-danger w-100">
-                                    Remove from Favorites
+                                <button type="submit" class="btn btn-light w-100">
+                                    <i class="bi bi-heart-fill text-danger"></i> Remove from Favorites
                                 </button>
                             </form>
                         </div>

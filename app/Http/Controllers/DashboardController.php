@@ -18,11 +18,16 @@ class DashboardController extends Controller
                 return view('properties.guest_index', compact('user', 'properties'));
 
             case 'admin':
-                return view('admin.dashboard', compact('user'));
+                // Fetch ALL properties with their agent relationship
+                $properties = Property::with('agent')->get();
+                return view('admin.dashboard', compact('user', 'properties'));
 
-            case 'agent':
+
+           case 'agent':
                 // Fetch only the properties belonging to this agent
-                $properties = Property::where('agent_id', $user->id)->get();
+                $properties = Property::where('user_id', $user->id) // <-- FIXED HERE
+                                    ->with('agent')
+                                    ->get();
                 return view('agents.dashboard', compact('user', 'properties'));
 
             default:

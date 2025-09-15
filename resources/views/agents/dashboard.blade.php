@@ -1,5 +1,5 @@
 <x-layout title="Agent Dashboard">
-    <h2>Welcome, {{ $user->name }} (Agent)</h2>
+    <h2>Welcome, {{ $user->name }} </h2>
 
     <h4 class="mt-4">My Properties</h4>
 
@@ -19,7 +19,6 @@
                             <h5 class="card-title">{{ $property->title }}</h5>
                             <p><strong>City:</strong> {{ $property->city }}</p>
                             <p><strong>Price:</strong> ${{ number_format($property->price, 2) }}</p>
-                            <a href="{{ route('properties.edit', $property) }}" class="btn btn-sm btn-primary">Edit</a>
                         </div>
                     </div>
                 </div>

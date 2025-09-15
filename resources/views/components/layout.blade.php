@@ -25,7 +25,7 @@
                         @endif
                         
                         @if(auth()->user()->isAgent())
-                             <li class="nav-item"><a class="nav-link" href="{{ route('properties.index') }}">My Properties</a></li>  
+                             <li class="nav-item"><a class="nav-link" href="{{ route('properties.index') }}">Manage Properties</a></li>  
                         @endif
                         
                         @if(auth()->user()->isGuestUser())
