@@ -1,6 +1,21 @@
 <x-layout title="My Favorites">
     <h1 class="mb-4 text-center">My Favorite Properties</h1>
 
+    {{-- Search Bar --}}
+    <form action="{{ route('favorites.index') }}" method="GET" class="mb-3 d-flex" style="max-width: 400px;">
+            <input 
+                type="text" 
+                name="search" 
+                class="form-control" 
+                placeholder="Search by title, city, or type..."
+                value="{{ request('search') }}"
+            >
+            <button class="btn btn-outline-primary" type="submit">
+                 Search
+            </button>
+        
+    </form>
+
     @if($favorites->isEmpty())
         <p class="text-center">You don’t have any favorites yet.</p>
     @else

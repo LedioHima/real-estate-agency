@@ -21,11 +21,25 @@ class FavoriteController extends Controller
         return back()->with('success', 'Added to favorites!');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $favorites = Auth::user()->favorites()->with('property')->get();
+        $user = auth()->guard()->user();
+        $search = $request->input('search');
+
+        $favorites = $user->favorites()
+            ->whereHas('property', function ($query) use ($search) {
+                if ($search) {
+                    $query->where('title', 'like', "%{$search}%")
+                        ->orWhere('city', 'like', "%{$search}%")
+                        ->orWhere('type', 'like', "%{$search}%");
+                }
+            })
+            ->with('property') // eager load properties
+            ->get();
+
         return view('favorites.index', compact('favorites'));
     }
+
 
     public function destroy(Property $property)
     {

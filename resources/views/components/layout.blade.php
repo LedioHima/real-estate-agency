@@ -44,15 +44,33 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     @auth
-                        <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
+                        <!-- Dashboard -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('dashboard') }}">
+                                <i class="bi bi-house-door-fill"></i> Dashboard
+                            </a>
+                        </li>
+
+
+                        <!-- Manage Agents (Admin Only) -->
                         @if(auth()->user()->isAdmin())
-                            <li class="nav-item"><a class="nav-link" href="{{ route('agents.index') }}">Manage Agents</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('agents.index') }}">
+                                    <i class="bi bi-people-fill"></i> Manage Agents
+                                </a>
+                            </li>
                         @endif
-                        
+
+                        <!-- Manage Properties (Agent Only) -->
                         @if(auth()->user()->isAgent())
-                            <li class="nav-item"><a class="nav-link" href="{{ route('properties.index') }}">Manage Properties</a></li>  
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('properties.index') }}">
+                                    <i class="bi bi-house-door-fill"></i> Manage Properties
+                                </a>
+                            </li>
                         @endif
-                        
+
+                        <!-- Favorites (Guest User Only) -->
                         @if(auth()->user()->isGuestUser())
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('favorites.index') }}">
@@ -61,18 +79,37 @@
                             </li>
                         @endif
 
-                        <li class="nav-item"><a class="nav-link" href="{{ route('profile') }}">Profile</a></li>
+                        <!-- Profile -->
                         <li class="nav-item">
-                            <form method="POST" action="{{ route('logout') }}">
+                            <a class="nav-link" href="{{ route('profile') }}">
+                                <i class="bi bi-person-circle"></i> Profile
+                            </a>
+                        </li>
+
+                        <!-- Logout -->
+                        <li class="nav-item">
+                            <form method="POST" action="{{ route('logout') }}" class="d-inline">
                                 @csrf
-                                <button class="btn btn-link nav-link" type="submit">Logout</button>
+                                <button class="btn btn-link nav-link" type="submit">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </button>
                             </form>
                         </li>
                     @else
-                        <li class="nav-item"><a class="nav-link" href="{{ route('login.form') }}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('register.form') }}">Register</a></li>
+                        <!-- Guest: Login & Register -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login.form') }}">
+                                <i class="bi bi-box-arrow-in-right"></i> Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register.form') }}">
+                                <i class="bi bi-pencil-square"></i> Register
+                            </a>
+                        </li>
                     @endauth
                 </ul>
+
             </div>
         </div>
     </nav>
