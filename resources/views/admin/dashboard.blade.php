@@ -1,6 +1,16 @@
-<!-- resources/views/admin/dashboard.blade.php -->
 <x-layout title="Admin Dashboard">
     <h3 class="mt-4 mb-3">All Properties</h3>
+
+    <!-- Search Form -->
+    <form method="GET" action="{{ route('dashboard') }}" class="mb-4 d-flex gap-2">
+    <input type="text" 
+           name="search" 
+           class="form-control" 
+           placeholder="Search by title or city..." 
+           value="{{ request('search') }}">
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
 
     @if($properties->isEmpty())
         <p>No properties available.</p>
@@ -29,6 +39,10 @@
                     </div>
                 </div>
             @endforeach
+            <div class="mt-4">
+                 {{ $properties->appends(request()->only('search'))->links() }}
+             </div>
+
         </div>
     @endif
 </x-layout>

@@ -1,6 +1,51 @@
 {{-- resources/views/properties/guest_index.blade.php --}}
 <x-layout title="Properties">
     <h1 class="mb-4 text-center">Available Properties</h1>
+    {{-- Search Form --}}
+<form method="GET" action="{{ route('home') }}" class="mb-3 d-flex justify-content-center gap-2">
+    <input type="text" 
+           name="search" 
+           class="form-control w-50" 
+           placeholder="Search by title, city, or type..." 
+           value="{{ request('search') }}">
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+{{-- Sort + Price Range Form --}}
+<form method="GET" action="{{ route('home') }}" class="mb-4 row g-2 justify-content-center">
+    {{-- Keep search value when filtering --}}
+    <input type="hidden" name="search" value="{{ request('search') }}">
+
+    {{-- Sort Dropdown --}}
+    <div class="col-md-3">
+        <select name="sort" class="form-select">
+            <option value="">Sort By</option>
+            <option value="low-high" {{ request('sort') == 'low-high' ? 'selected' : '' }}>Price: Low → High</option>
+            <option value="high-low" {{ request('sort') == 'high-low' ? 'selected' : '' }}>Price: High → Low</option>
+        </select>
+    </div>
+
+    {{-- Price Range Inputs --}}
+    <div class="col-md-2">
+        <input type="number" 
+               name="min_price" 
+               class="form-control" 
+               placeholder="From" 
+               value="{{ request('min_price') }}">
+    </div>
+    <div class="col-md-2">
+        <input type="number" 
+               name="max_price" 
+               class="form-control" 
+               placeholder="To" 
+               value="{{ request('max_price') }}">
+    </div>
+
+    {{-- Apply Button --}}
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-secondary w-100">Apply Filters</button>
+    </div>
+</form>
 
     @if($properties->isEmpty())
         <p class="text-center">No properties available.</p>
@@ -95,6 +140,12 @@
                     </div>
                 </div>
             @endforeach
+        <div class="mt-4 d-flex justify-content-center">
+            {{ $properties->appends(request()->only('search', 'min_price', 'max_price', 'sort'))->links() }}
+        </div>
+
+
+
         </div>
     @endif
 </x-layout>

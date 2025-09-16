@@ -2,6 +2,14 @@
     <h2>Welcome, {{ $user->name }} </h2>
 
     <h4 class="mt-4">My Properties</h4>
+    <form method="GET" action="{{ route('dashboard') }}" class="mb-4 d-flex gap-2">
+        <input type="text" 
+            name="search" 
+            class="form-control" 
+            placeholder="Search my properties by title or city..." 
+            value="{{ request('search') }}">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
 
     @if($properties->isEmpty())
         <p>You don’t have any properties listed yet.</p>
@@ -23,6 +31,10 @@
                     </div>
                 </div>
             @endforeach
+            <div class="mt-4">
+                {{ $properties->appends(request()->only('search'))->links() }}
+            </div>
+
         </div>
     @endif
 </x-layout>

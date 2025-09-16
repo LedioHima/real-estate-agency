@@ -12,12 +12,45 @@ class PropertyController extends Controller
     /**
      * Display a listing of all properties with their agents.
      */
-    public function index()
-    {
-        $properties = Property::with('agent')->get();
-        return view('properties.guest_index', compact('properties'));
+   public function index(Request $request)
+{
+    $search = $request->input('search');
+    $minPrice = $request->input('min_price');
+    $maxPrice = $request->input('max_price');
+    $sort = $request->input('sort'); // new sort option
+
+    $query = Property::with('agent');
+
+    // Search filter
+    if ($search) {
+        $query->where(function ($q) use ($search) {
+            $q->where('title', 'like', "%{$search}%")
+              ->orWhere('city', 'like', "%{$search}%")
+              ->orWhere('type', 'like', "%{$search}%");
+        });
     }
 
+    // Price range filter
+    if ($minPrice) {
+        $query->where('price', '>=', $minPrice);
+    }
+    if ($maxPrice) {
+        $query->where('price', '<=', $maxPrice);
+    }
+
+    // Sorting
+    if ($sort === 'low-high') {
+        $query->orderBy('price', 'asc');
+    } elseif ($sort === 'high-low') {
+        $query->orderBy('price', 'desc');
+    } else {
+        $query->latest(); // default: newest properties first
+    }
+
+    $properties = $query->paginate(9);
+
+    return view('properties.guest_index', compact('properties', 'search', 'minPrice', 'maxPrice', 'sort'));
+}
 
     /**
      * Display a single property (public).
