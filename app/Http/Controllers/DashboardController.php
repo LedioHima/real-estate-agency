@@ -25,8 +25,12 @@ class DashboardController extends Controller
     }
 
     $properties = $query->latest()->paginate(9);
+      $slideshowProperties = Property::whereNotNull('image')
+        ->latest()
+        ->take(5)
+        ->get();
 
-    return view('properties.guest_index', compact('user', 'properties'));
+    return view('properties.guest_index', compact('user', 'properties', 'slideshowProperties'));
 
             case 'admin':
     $query = Property::with('agent');

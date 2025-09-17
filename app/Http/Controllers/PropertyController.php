@@ -48,8 +48,12 @@ class PropertyController extends Controller
     }
 
     $properties = $query->paginate(9);
+      $slideshowProperties = Property::whereNotNull('image')
+        ->latest()
+        ->take(5)
+        ->get();
 
-    return view('properties.guest_index', compact('properties', 'search', 'minPrice', 'maxPrice', 'sort'));
+    return view('properties.guest_index', compact('properties', 'search', 'minPrice', 'maxPrice', 'sort', 'slideshowProperties'));
 }
 
     /**
