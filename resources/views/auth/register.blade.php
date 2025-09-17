@@ -6,20 +6,66 @@
             <div class="card-body">
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
+
+                    {{-- Name Field --}}
                     <div class="mb-3">
-                        <input type="text" name="name" class="form-control" placeholder="Name" required>
+                        <input 
+                            type="text" 
+                            name="name" 
+                            class="form-control @error('name') is-invalid @enderror" 
+                            placeholder="Name" 
+                            value="{{ old('name') }}" 
+                            required
+                        >
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
+
+                    {{-- Email Field --}}
                     <div class="mb-3">
-                        <input type="email" name="email" class="form-control" placeholder="Email" required>
+                        <input 
+                            type="email" 
+                            name="email" 
+                            class="form-control @error('email') is-invalid @enderror" 
+                            placeholder="Email" 
+                            value="{{ old('email') }}" 
+                            required
+                        >
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
+
+                    {{-- Password Field --}}
                     <div class="mb-3">
-                        <input type="password" name="password" class="form-control" placeholder="Password" required>
+                        <input 
+                            type="password" 
+                            name="password" 
+                            class="form-control @error('password') is-invalid @enderror" 
+                            placeholder="Password" 
+                            required
+                        >
+                        @error('password')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
+
+                    {{-- Confirm Password Field --}}
                     <div class="mb-3">
-                        <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm Password" required>
+                        <input 
+                            type="password" 
+                            name="password_confirmation" 
+                            class="form-control" 
+                            placeholder="Confirm Password" 
+                            required
+                        >
                     </div>
+
+                    {{-- Submit Button --}}
                     <button type="submit" class="btn btn-primary w-100">Register</button>
                 </form>
+
                 
                 <div class="text-center mt-3">
                     <p class="mb-0">

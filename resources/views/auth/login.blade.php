@@ -7,18 +7,40 @@
             <div class="card-body">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
+
                     <div class="mb-3">
-                        <input type="email" name="email" class="form-control" placeholder="Email" required>
+                        <input 
+                            type="email" 
+                            name="email" 
+                            class="form-control @error('email') is-invalid @enderror" 
+                            placeholder="Email"  
+                            value="{{ old('email') }}" 
+                            required
+                        >
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
+
                     <div class="mb-3">
-                        <input type="password" name="password" class="form-control" placeholder="Password" required>
+                        <input 
+                            type="password" 
+                            name="password" 
+                            class="form-control @error('password') is-invalid @enderror" 
+                            placeholder="Password" 
+                            required
+                        >
+                        @error('password')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
+
                     <div class="mb-3">
                         <button type="submit" class="btn btn-primary w-100">Login</button>
                     </div>
                 </form>
 
-                <!-- Question + Redirect to Register -->
+
                 <div class="text-center mt-3">
                     <p class="mb-0">
                         Don’t have an account? 
