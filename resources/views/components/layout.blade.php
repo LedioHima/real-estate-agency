@@ -72,6 +72,7 @@
                         <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
                         @if(auth()->user()->isAdmin())
                             <li class="nav-item"><a class="nav-link" href="{{ route('agents.index') }}">Manage Agents</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('guests.index') }}">Manage Guests</a></li>
                         @endif
                         @if(auth()->user()->isAgent())
                             <li class="nav-item"><a class="nav-link" href="{{ route('properties.index') }}">Manage Properties</a></li>
@@ -122,6 +123,7 @@
                             <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                             @if(auth()->user()->isAdmin())
                                 <li><a href="{{ route('agents.index') }}">Manage Agents</a></li>
+                                <li><a href="{{ route('guests.index') }}">Manage Guests</a></li>
                             @endif
                             @if(auth()->user()->isAgent())
                                 <li><a href="{{ route('properties.index') }}">Manage Properties</a></li>

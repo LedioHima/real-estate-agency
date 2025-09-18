@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GuestController;
 
 // ------------------------------
 // Public Routes
@@ -39,6 +40,8 @@ Route::middleware(['auth'])->group(function () {
     ->middleware(['auth'])
     ->name('dashboard');
 
+    //Manage Guest 
+    Route::resource('guests', GuestController::class)->only(['index', 'destroy']);
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');

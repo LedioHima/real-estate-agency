@@ -35,18 +35,31 @@ class DashboardController extends Controller
             return view('properties.guest_index', compact('user', 'properties', 'slideshowProperties'));
 
         case 'admin':
-            $query = Property::with('agent');
+    $query = Property::with('agent');
 
-            if (request()->filled('search')) {
-                $search = request('search');
-                $query->where(function ($q) use ($search) {
-                    $q->where('title', 'LIKE', "%{$search}%")
-                      ->orWhere('city', 'LIKE', "%{$search}%");
-                });
-            }
+    if (request()->filled('search')) {
+        $search = request('search');
+        $query->where(function ($q) use ($search) {
+            $q->where('title', 'LIKE', "%{$search}%")
+              ->orWhere('city', 'LIKE', "%{$search}%");
+        });
+    }
 
-            $properties = $query->latest()->paginate(9);
-            return view('admin.dashboard', compact('user', 'properties'));
+    $properties = $query->latest()->paginate(9);
+
+    // Add statistics
+    $totalProperties = \App\Models\Property::count();
+    $totalAgents = \App\Models\User::where('role', 'agent')->count();
+    $totalUsers = \App\Models\User::count();
+
+    return view('admin.dashboard', compact(
+        'user',
+        'properties',
+        'totalProperties',
+        'totalAgents',
+        'totalUsers'
+    ));
+
 
         case 'agent':
             $query = Property::where('user_id', $user->id)->with('agent');

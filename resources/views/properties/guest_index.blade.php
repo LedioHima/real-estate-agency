@@ -107,11 +107,9 @@
                             <h5 class="card-title fw-bold text-primary">{{ $property->title }}</h5>
 
                             <!-- City, Type, Price -->
-                            <p class="card-text mb-1"><i class="bi bi-geo-alt"></i> {{ $property->city }}</p>
-                            <p class="card-text mb-1"><strong>Type:</strong> {{ $property->type }}</p>
-                            <p class="card-text fw-bold text-success mb-3">
-                                ${{ number_format($property->price, 2) }}
-                            </p>
+                            <p class="card-text mb-1"><i class="bi bi-geo-alt"></i> <strong>City:</strong> {{ $property->city }}</p>
+                                <p class="card-text mb-1"><i class="bi bi-house-door"></i> <strong>Type:</strong> {{ $property->type }}</p>
+                                <p class="card-text mb-1"><i class="bi bi-cash-stack"></i> <strong>Price:</strong> ${{ number_format($property->price, 2) }}</p>
 
                             <!-- Actions -->
                             <div class="d-flex justify-content-between align-items-center mt-auto">
@@ -160,12 +158,36 @@
                                          class="img-fluid rounded mb-3" 
                                          alt="{{ $property->title }}">
                                 @endif
-                                <p><strong>City:</strong> {{ $property->city }}</p>
-                                <p><strong>Type:</strong> {{ $property->type }}</p>
-                                <p><strong>Price:</strong> ${{ number_format($property->price, 2) }}</p>
-                                <p><strong>Description:</strong> {{ $property->description }}</p>
-                                <p class="text-muted"><strong>Agent:</strong> {{ $property->agent->name ?? 'Unknown' }}</p>
-                                <p class="text-muted"><strong>Email:</strong> {{ $property->agent->email ?? 'Unknown' }}</p>
+                                <p class="mb-2">
+    <i class="bi bi-geo-alt text-primary"></i> 
+    <strong>City:</strong> {{ $property->city }}
+</p>
+
+<p class="mb-2">
+    <i class="bi bi-house-door text-success"></i> 
+    <strong>Type:</strong> {{ $property->type }}
+</p>
+
+<p class="mb-2">
+    <i class="bi bi-cash-stack text-warning"></i> 
+    <strong>Price:</strong> ${{ number_format($property->price, 2) }}
+</p>
+
+<p class="mb-3">
+    <i class="bi bi-card-text text-secondary"></i> 
+    <strong>Description:</strong> {{ $property->description }}
+</p>
+
+<p class="mb-1 text-muted">
+    <i class="bi bi-person-badge"></i> 
+    <strong>Agent:</strong> {{ $property->agent->name ?? 'Unknown' }}
+</p>
+
+<p class="mb-0 text-muted">
+    <i class="bi bi-envelope"></i> 
+    <strong>Email:</strong> {{ $property->agent->email ?? 'Unknown' }}
+</p>
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
