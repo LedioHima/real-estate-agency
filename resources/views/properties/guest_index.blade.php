@@ -1,101 +1,89 @@
-{{-- resources/views/properties/guest_index.blade.php --}}
 <x-layout title="Properties">
 
-    <!-- Page Title -->
-<div class="text-center my-5">
-    <h1 class="fw-bold display-4 mb-3 position-relative d-inline-block fancy-title">
-        🏡 Available <span class="text-primary">Properties</span>
-    </h1>
-    <p class="text-muted fs-5 fst-italic">
-        Find your dream home with our latest listings
-    </p>
-</div>
+    <!-- Hero Section with Slideshow Background -->
+    <section class="hero-section position-relative text-center text-white mb-5">
 
-
-
-    <!-- Search & Filter Bar -->
-    <div class="card shadow-sm border-0 mb-5">
-        <div class="card-body">
-            <form method="GET" action="{{ route('home') }}" class="row g-3">
-                <!-- Search -->
-                <div class="col-md-4">
-                    <input type="text" 
-                           name="search" 
-                           class="form-control form-control-lg" 
-                           placeholder="Search by title, city, or type..." 
-                           value="{{ request('search') }}">
+        {{-- Dynamic Slideshow --}}
+        @if(isset($slideshowProperties) && $slideshowProperties->isNotEmpty())
+            <div id="propertyCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                <div class="carousel-inner">
+                    @foreach($slideshowProperties as $index => $property)
+                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                            <img src="{{ asset('storage/' . $property->image) }}"
+                                 class="d-block w-100"
+                                 alt="{{ $property->title }}"
+                                 style="object-fit: cover; height: 500px;">
+                        </div>
+                    @endforeach
                 </div>
+            </div>
+        @else
+            {{-- Fallback if no slideshow --}}
+            <img src="{{ asset('images/hero.jpg') }}" 
+                 class="w-100" 
+                 alt="Hero Background"
+                 style="height: 500px; object-fit: cover;">
+        @endif
 
-                <!-- Min Price -->
-                <div class="col-md-2">
-                    <input type="number" 
-                           name="min_price" 
-                           class="form-control" 
-                           placeholder="Min Price" 
-                           value="{{ request('min_price') }}">
-                </div>
+        <!-- Dark Overlay -->
+        <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-50"></div>
 
-                <!-- Max Price -->
-                <div class="col-md-2">
-                    <input type="number" 
-                           name="max_price" 
-                           class="form-control" 
-                           placeholder="Max Price" 
-                           value="{{ request('max_price') }}">
-                </div>
-
-                <!-- Sort Dropdown -->
-                <div class="col-md-2">
-                    <select name="sort" class="form-select">
-                        <option value="">Sort By</option>
-                        <option value="low-high" {{ request('sort') == 'low-high' ? 'selected' : '' }}>Price: Low → High</option>
-                        <option value="high-low" {{ request('sort') == 'high-low' ? 'selected' : '' }}>Price: High → Low</option>
-                    </select>
-                </div>
-
-                <!-- Submit -->
-                <div class="col-md-2 d-grid">
-                    <button type="submit" class="btn btn-primary btn-lg">Apply</button>
-                </div>
-            </form>
+        <!-- Content inside hero -->
+        <div class="hero-content position-absolute top-50 start-50 translate-middle w-75">
+            <h1 class="fw-bold display-4 mb-3 fancy-title">🏡 Available <span class="text-primary">Properties</span></h1>
+            <p class="fs-5 fst-italic mb-0">Find your dream home with our latest listings</p>
         </div>
-    </div>
-{{-- Dynamic Slideshow --}}
-@if(isset($slideshowProperties) && $slideshowProperties->isNotEmpty())
-    <div id="propertyCarousel" class="carousel slide mb-5 shadow-sm" data-bs-ride="carousel" data-bs-interval="3000">
-        <div class="carousel-inner rounded">
-            @foreach($slideshowProperties as $index => $property)
-                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                    <img src="{{ asset('storage/' . $property->image) }}"
-                         class="d-block w-100"
-                         alt="{{ $property->title }}"
-                         style="object-fit:cover; height:400px;">
+    </section>
 
-                    {{-- Glassmorphism caption --}}
-                    <div class="carousel-caption d-none d-md-block bg-light bg-opacity-25 backdrop-blur rounded-4 shadow-lg p-3">
-                        <h5 class="fw-bold text-white text-shadow">
-                            {{ $property->title }}
-                        </h5>
-                        <p class="mb-1 text-white-50">
-                            ${{ number_format($property->price, 2) }} • {{ $property->city }}
-                        </p>
+    <!-- Search & Filter Bar (moved below hero) -->
+    <div class="container mb-5">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <form method="GET" action="{{ route('home') }}" class="row g-3">
+                    <!-- Search -->
+                    <div class="col-md-4">
+                        <input type="text" 
+                               name="search" 
+                               class="form-control form-control-lg" 
+                               placeholder="Search by title, city, or type..." 
+                               value="{{ request('search') }}">
                     </div>
-                </div>
-            @endforeach
+
+                    <!-- Min Price -->
+                    <div class="col-md-2">
+                        <input type="number" 
+                               name="min_price" 
+                               class="form-control" 
+                               placeholder="Min Price" 
+                               value="{{ request('min_price') }}">
+                    </div>
+
+                    <!-- Max Price -->
+                    <div class="col-md-2">
+                        <input type="number" 
+                               name="max_price" 
+                               class="form-control" 
+                               placeholder="Max Price" 
+                               value="{{ request('max_price') }}">
+                    </div>
+
+                    <!-- Sort Dropdown -->
+                    <div class="col-md-2">
+                        <select name="sort" class="form-select">
+                            <option value="">Sort By</option>
+                            <option value="low-high" {{ request('sort') == 'low-high' ? 'selected' : '' }}>Price: Low → High</option>
+                            <option value="high-low" {{ request('sort') == 'high-low' ? 'selected' : '' }}>Price: High → Low</option>
+                        </select>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="col-md-2 d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">Apply</button>
+                    </div>
+                </form>
+            </div>
         </div>
-
-        {{-- Controls --}}
-        <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#propertyCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
     </div>
-@endif
-
 
     <!-- Property Listings -->
     @if($properties->isEmpty())
@@ -196,8 +184,18 @@
 
 </x-layout>
 
-<!-- Extra CSS for hover effect -->
+<!-- Extra CSS -->
 <style>
+    .hero-section {
+        height: 500px;
+        overflow: hidden;
+    }
+    .hero-overlay {
+        background: rgba(0, 0, 0, 0.55);
+    }
+    .hero-content {
+        z-index: 2;
+    }
     .property-card:hover {
         transform: translateY(-5px);
         transition: 0.3s ease-in-out;
