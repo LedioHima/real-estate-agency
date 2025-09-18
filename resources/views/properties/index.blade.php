@@ -156,7 +156,8 @@
                 <form action="{{ route('properties.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
-                        @include('properties.form')
+                        {{-- Force empty property to avoid pre-filled values --}}
+                        @include('properties.form', ['property' => null])
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
