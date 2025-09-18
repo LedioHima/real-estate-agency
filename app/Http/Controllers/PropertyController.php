@@ -73,16 +73,14 @@ class PropertyController extends Controller
     {
         $search = $request->input('search');
 
-        $properties = Property::with('agent')
-            ->where('user_id', Auth::id()) // restrict to logged-in agent
-            ->when($search, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('title', 'like', "%{$search}%")
-                    ->orWhere('city', 'like', "%{$search}%")
-                    ->orWhere('type', 'like', "%{$search}%");
-                });
-            })
-            ->get();
+        $properties = Property::where('user_id', auth()->guard()->id())
+    ->when(request('search'), function ($query, $search) {
+        $query->where('title', 'like', "%{$search}%")
+              ->orWhere('city', 'like', "%{$search}%")
+              ->orWhere('type', 'like', "%{$search}%");
+    })
+    ->paginate(10); // 👈 paginate instead of get()
+
 
         return view('properties.index', compact('properties', 'search'));
     }
