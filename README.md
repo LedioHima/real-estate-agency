@@ -67,6 +67,6 @@ Backend: Laravel 11
 
 Frontend: Blade Templates, Bootstrap 5, Bootstrap Icons
 
-Database: MySQL or SQLite
+Database: SQLite
 
 Authentication: Laravel Breeze (or built-in auth)
