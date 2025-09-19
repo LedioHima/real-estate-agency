@@ -51,12 +51,7 @@
                                 @enderror
                             </div>
                         </div>
-
-                        <!-- Remember Me -->
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" name="remember" id="remember">
-                            <label class="form-check-label small" for="remember">Remember Me</label>
-                        </div>
+                        
 
                         <!-- Submit -->
                         <div class="d-grid">
