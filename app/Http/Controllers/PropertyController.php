@@ -100,7 +100,7 @@ class PropertyController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'       => 'required|string|max:255',
+            'title'       => 'required|string|max:255|unique:properties,title',
             'city'        => 'nullable|string|max:255',
             'type'        => 'nullable|string|max:255',
             'price'       => 'nullable|numeric',
